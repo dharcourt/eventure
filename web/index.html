@@ -4,19 +4,53 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+          href="apple-touch-icon-72x72.png">
     <style type="text/css">
-      html {
-        height: 100%;
-      }
-
       body {
         height: 100%;
         margin: 0;
         padding: 0;
       }
 
+      #menu {
+        background: rgb(19, 208, 174);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        color: rgb(128, 137, 134);
+        font: bold 13pt sans-serif;
+        height: 30px;
+        left: 0px;
+        padding: 9px 0 0;
+        position: absolute;
+        right: 0px;
+        text-align: center;
+        top: 0px;
+        vertical-align: middle;
+      }
+
+      #banner {
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+        color: #777;
+        height: 40px;
+        left: 36px;
+        position: absolute;
+        right: 54px;
+        top: 45px;
+      }
+
+      html {
+        height: 100%;
+      }
+
       #map {
-        height: 100%
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+        top: 40px;
       }
     </style>
     <script type="text/javascript"
@@ -40,21 +74,21 @@
             "routes": [{
               "legs": [{
                 "segments": [{
-                  "start": "38.5823,-121.5053",
-                  "end": "37.5828,-121.3232",
-                  "distance": 132610,
-                  "energy": 71193600,
-                  "duration": 4380}],
+                  "start": "38.108345,-122.577744",
+                  "end": "37.485505,-122.227647",
+                  "distance": 89882,
+                  "energy": 58131000,
+                  "duration": 4500}],
                 "charge": {
-                  "energy": 71193600,
-                  "duration": 1854}
+                  "energy": 11880000,
+                  "duration": 3600}
               }, {
                 "segments": [{
-                  "start": "37.5828,-121.3232",
-                  "end": "34.1018,-118.3409",
-                  "distance": 502115,
-                  "energy": 269568000,
-                  "duration": 16020}],
+                  "start": "37.485505,-122.227647",
+                  "end": "37.359288,-122.022985",
+                  "distance": 23450,
+                  "energy": 9342000,
+                  "duration": 1380}],
                 "charge": {
                   "energy": 0,
                   "duration": 0}
@@ -62,31 +96,49 @@
             }, {
               "legs": [{
                 "segments": [{
-                  "start": "38.5823,-121.5053",
-                  "end": "37.8009,-121.1922",
-                  "distance": 97043,
-                  "energy": 52098962,
-                  "duration": 3480}],
+                  "start": "38.108345,-122.577744",
+                  "end": "37.87016,-122.27",
+                  "distance": 91718,
+                  "energy": 57472560,
+                  "duration": 4080}, {
+                  "start": "37.87016,-122.27",
+                  "end": "37.4136,-121.924",
+                  "distance": 91718,
+                  "energy": 57472560,
+                  "duration": 4080}],
                 "charge": {
-                  "energy": 52098962,
-                  "duration": 1357}
+                  "energy": 000,
+                  "duration": 000}
               }, {
                 "segments": [{
-                  "start": "37.8009,-121.1922",
-                  "end": "36.2160,-119.3297",
-                  "distance": 257495,
-                  "energy": 138239978,
-                  "duration": 8580}],
+                  "start": "37.4136,-121.924",
+                  "end": "37.359288,-122.022985",
+                  "distance": 23450,
+                  "energy": 9342000,
+                  "duration": 1380}],
                 "charge": {
-                  "energy": 138239978,
-                  "duration": 3600}
+                  "energy": 0,
+                  "duration": 0}
+              }]
+            },
+            {
+              "legs": [{
+                "segments": [{
+                  "start": "38.108345,-122.577744",
+                  "end": "37.484066,-122.22731",
+                  "distance": 91718,
+                  "energy": 57472560,
+                  "duration": 4080}],
+                "charge": {
+                  "energy": 000,
+                  "duration": 000}
               }, {
                 "segments": [{
-                  "start": "36.2160,-119.3297",
-                  "end": "34.1018,-118.3409",
-                  "distance": 268760,
-                  "energy": 144287760,
-                  "duration": 8940}],
+                  "start": "37.484066,-122.22731",
+                  "end": "37.359288,-122.022985",
+                  "distance": 23450,
+                  "energy": 9342000,
+                  "duration": 1380}],
                 "charge": {
                   "energy": 0,
                   "duration": 0}
@@ -104,11 +156,12 @@
           return new google.maps.LatLng(coordinates[0], coordinates[1]);
         }
 
-        function midLatLng(position1, position2) {
+        function midLatLng(position1, position2, offsetX, offsetY) {
           var latLng1 = toLatLng(position1);
           var latLng2 = toLatLng(position2);
-          return new google.maps.LatLng((latLng1.lat() + latLng2.lat()) / 2,
-                                        (latLng1.lng() + latLng2.lng()) / 2);
+          return new google.maps.LatLng(
+              (latLng1.lat() + latLng2.lat()) / 2 + offsetY,
+              (latLng1.lng() + latLng2.lng()) / 2 + offsetX);
         }
 
         function addRoute(legs, selected) {
@@ -155,7 +208,7 @@
         function getLineOptions(selected, path) {
           var options = {map: map, strokeColor: 'blue'};
           options.strokeWeight = 8;
-          options.strokeOpacity = selected ? 0.6 : 0.3;
+          options.strokeOpacity = selected ? 0.6 : 0.25;
           if (path) {
             options.path = path;
           }
@@ -194,9 +247,11 @@
           var destination = last(last(last(routes).legs).segments).end;
 
           navigator = new google.maps.DirectionsService();
-          map = new google.maps.Map(
-              document.querySelector("#map"),
-              {center: midLatLng(origin, destination), zoom: 7});
+          map = new google.maps.Map(document.querySelector("#map"), {
+            center: midLatLng(origin, destination, 0.05, 0.05),
+            mapTypeControlOptions: {
+              mapTypeIds: [google.maps.MapTypeId.ROADMAP]},
+            zoom: 9});
 
           addMarker(null, origin, green);
           addMarker(null, destination, red);
@@ -208,6 +263,8 @@
     </script>
   </head>
   <body>
-    <div id="map"/>
+    <div id="map"></div>
+    <div id="menu">EV ROUTES</div>
+    <div id="banner"></div>
   </body>
 </html>
